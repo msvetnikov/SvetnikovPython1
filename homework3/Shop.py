@@ -6,7 +6,7 @@ class Product:
         self.stock = stock
 
     def update_stock(self, quantity):
-        # Меняем остаток на складе (можно положительное или отрицательное)
+        # Меняем остаток (можно положительное или отрицательное)
         new_stock = self.stock + quantity
         if new_stock < 0:
             raise ValueError("Количество на складе не может быть отрицательным.")
@@ -24,7 +24,8 @@ class Order:
             raise ValueError("Количество должно быть больше нуля.")
         if product.stock < quantity:
             raise ValueError("Недостаточно товара на складе.")
-        # Склады не трогаем, только записываем в заказ
+        # Списываем со склада и записываем в заказ
+        product.update_stock(-quantity)
         self.products[product] = self.products.get(product, 0) + quantity
 
     def calculate_total(self):
